@@ -41,6 +41,10 @@ export interface AddressInput {
     street?: string;
 }
 
+export interface FullAddressInput {
+    address: string;
+}
+
 export interface ConversionResponse {
     success: boolean;
     old_address: string | null;
@@ -111,5 +115,17 @@ export const convertOldToNew = async (address: AddressInput): Promise<Conversion
 // Convert new to old
 export const convertNewToOld = async (address: AddressInput): Promise<ConversionResponse> => {
     const response = await apiClient.post("/api/convert/new-to-old", address);
+    return response.data;
+};
+
+// Quick convert old to new (full address)
+export const quickConvertOldToNew = async (input: FullAddressInput): Promise<ConversionResponse> => {
+    const response = await apiClient.post("/api/convert/quick/old-to-new", input);
+    return response.data;
+};
+
+// Quick convert new to old (full address)
+export const quickConvertNewToOld = async (input: FullAddressInput): Promise<ConversionResponse> => {
+    const response = await apiClient.post("/api/convert/quick/new-to-old", input);
     return response.data;
 };

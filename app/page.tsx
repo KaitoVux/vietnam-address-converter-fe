@@ -2,7 +2,7 @@ import AddressConverter from '@/components/AddressConverter'
 
 export default function Home() {
   return (
-    <main className="min-h-screen flex items-center justify-center px-4 py-12">
+    <main className="min-h-screen py-4 md:py-6">
       <AddressConverter />
     </main>
   )

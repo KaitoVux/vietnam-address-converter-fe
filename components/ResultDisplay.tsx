@@ -27,119 +27,78 @@ export default function ResultDisplay({
   }
 
   return (
-    <div className="mt-8 glass-panel rounded-2xl p-8 animate-float">
-      <h3 className="text-2xl font-bold mb-6 aurora-text flex items-center gap-3">
-        <span className="text-3xl">✅</span>
-        Conversion Result
+    <div className="mt-4 pt-4 border-t border-gray-200">
+      <h3 className="text-sm font-bold mb-3 swiss-label text-gray-900">
+        Kết Quả
       </h3>
 
       {result.success ? (
         <>
-          <div className="space-y-5 mb-6">
-            <div className="glass-panel rounded-xl p-5">
-              <p className="text-sm text-white/60 mb-2 font-medium tracking-wide">
-                OLD FORMAT (63 PROVINCES)
+          <div className="space-y-2 mb-3">
+            <div className="border border-gray-300 p-3 bg-gray-50">
+              <p className="swiss-label text-gray-600 mb-1">
+                Cũ (63)
               </p>
-              <p className="text-lg font-semibold text-white leading-relaxed">
+              <p className="text-xs font-medium text-black">
                 {result.old_address || 'N/A'}
               </p>
             </div>
 
-            <div className="flex items-center justify-center">
-              <div className="bg-gradient-to-r from-jade-500 via-lotus-500 to-amber-500 rounded-full p-3">
-                <svg
-                  className="w-6 h-6 text-white"
-                  fill="none"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2.5"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"></path>
-                </svg>
-              </div>
-            </div>
-
-            <div className="glass-panel rounded-xl p-5 border-2 border-jade-500/30">
-              <p className="text-sm text-white/60 mb-2 font-medium tracking-wide">
-                NEW FORMAT (34 PROVINCES)
+            <div className="border-2 border-black p-3 bg-white">
+              <p className="swiss-label text-gray-600 mb-1">
+                Mới (34)
               </p>
-              <p className="text-lg font-semibold text-jade-300 leading-relaxed">
+              <p className="text-xs font-semibold text-black">
                 {result.new_address || 'N/A'}
               </p>
             </div>
           </div>
 
-          <div className="flex flex-wrap gap-3">
+          <div className="grid grid-cols-3 gap-2">
             <button
               onClick={handleCopy}
               className="
-                flex-1 min-w-[160px] px-6 py-3.5 rounded-xl font-semibold
-                bg-gradient-to-r from-jade-500 to-emerald-600
-                text-white shadow-lg glow-jade
-                transition-all duration-200
-                hover:scale-105 active:scale-95
-                flex items-center justify-center gap-2
+                px-3 py-2 font-semibold text-xs
+                swiss-button bg-black text-white
+                hover:-translate-y-0.5
               "
-              aria-label="Copy converted address to clipboard"
+              aria-label="Sao chép địa chỉ đã chuyển đổi"
             >
-              {copied ? (
-                <>
-                  <span className="text-xl">✓</span>
-                  <span>Copied!</span>
-                </>
-              ) : (
-                <>
-                  <span className="text-xl">📋</span>
-                  <span>Copy Result</span>
-                </>
-              )}
+              {copied ? 'Đã sao chép' : 'Sao chép'}
             </button>
 
             <button
               onClick={onSwitchDirection}
               className="
-                flex-1 min-w-[160px] px-6 py-3.5 rounded-xl font-semibold
-                bg-gradient-to-r from-lotus-500 to-pink-600
-                text-white shadow-lg glow-lotus
-                transition-all duration-200
-                hover:scale-105 active:scale-95
-                flex items-center justify-center gap-2
+                px-3 py-2 font-semibold text-xs
+                swiss-button swiss-accent text-white
+                hover:-translate-y-0.5
               "
-              aria-label="Switch conversion direction"
+              aria-label="Đổi chiều chuyển đổi"
             >
-              <span className="text-xl">🔄</span>
-              <span>Switch Direction</span>
+              Đổi chiều
             </button>
 
             <button
               onClick={onReset}
               className="
-                flex-1 min-w-[160px] px-6 py-3.5 rounded-xl font-semibold
-                glass-panel glass-panel-hover
-                text-white
-                transition-all duration-200
-                hover:scale-105 active:scale-95
-                flex items-center justify-center gap-2
+                px-3 py-2 font-semibold text-xs
+                swiss-button border border-gray-300 bg-white text-black
+                hover:bg-gray-50
               "
-              aria-label="Reset form"
+              aria-label="Đặt lại form"
             >
-              <span className="text-xl">↺</span>
-              <span>Reset</span>
+              Đặt lại
             </button>
           </div>
         </>
       ) : (
-        <div className="glass-panel rounded-xl p-6 border-2 border-red-500/30">
-          <div className="flex items-start gap-4">
-            <span className="text-3xl">⚠️</span>
-            <div>
-              <p className="font-bold text-red-400 text-lg mb-2">Conversion Failed</p>
-              <p className="text-white/80 leading-relaxed">
-                {result.message || 'An error occurred during conversion. Please try again.'}
-              </p>
-            </div>
+        <div className="border-l-4 border-red-600 bg-red-50 p-3">
+          <div className="flex flex-col gap-1">
+            <p className="font-bold text-red-900 text-xs swiss-label">Thất bại</p>
+            <p className="text-red-800 text-xs">
+              {result.message || 'Đã xảy ra lỗi trong quá trình chuyển đổi. Vui lòng thử lại.'}
+            </p>
           </div>
         </div>
       )}

@@ -9,43 +9,41 @@ interface ModeToggleProps {
 
 export default function ModeToggle({ mode, onModeChange }: ModeToggleProps) {
   return (
-    <div className="flex gap-3 mb-8">
+    <div className="grid grid-cols-2 gap-0 mb-4 border border-gray-300">
       <button
         onClick={() => onModeChange('old-to-new')}
         className={`
-          relative px-6 py-3 rounded-xl font-medium transition-all duration-300
+          px-4 py-2 font-semibold transition-all duration-150 text-xs tracking-tight
           ${mode === 'old-to-new'
-            ? 'bg-gradient-to-r from-jade-500 to-emerald-500 text-white shadow-lg glow-jade scale-105'
-            : 'glass-panel glass-panel-hover text-white/70 hover:text-white'
+            ? 'bg-black text-white'
+            : 'bg-white text-black hover:bg-gray-50'
           }
         `}
         aria-pressed={mode === 'old-to-new'}
-        aria-label="Convert from old 63 provinces to new 34 provinces"
+        aria-label="Chuyển đổi từ 63 tỉnh thành cũ sang 34 tỉnh thành mới"
       >
-        <span className="flex items-center gap-2">
-          <span className="text-2xl">🏛️</span>
-          <span>Old → New</span>
-          <span className="text-sm opacity-75">(63 → 34)</span>
-        </span>
+        <div className="flex flex-col items-start gap-0.5">
+          <span className="text-sm">Cũ → Mới</span>
+          <span className="text-xs opacity-60">Trước sát nhập → Sau sát nhập</span>
+        </div>
       </button>
 
       <button
         onClick={() => onModeChange('new-to-old')}
         className={`
-          relative px-6 py-3 rounded-xl font-medium transition-all duration-300
+          px-4 py-2 font-semibold transition-all duration-150 text-xs tracking-tight border-l border-gray-300
           ${mode === 'new-to-old'
-            ? 'bg-gradient-to-r from-lotus-500 to-pink-500 text-white shadow-lg glow-lotus scale-105'
-            : 'glass-panel glass-panel-hover text-white/70 hover:text-white'
+            ? 'swiss-accent text-white'
+            : 'bg-white text-black hover:bg-gray-50'
           }
         `}
         aria-pressed={mode === 'new-to-old'}
-        aria-label="Convert from new 34 provinces to old 63 provinces"
+        aria-label="Chuyển đổi từ 34 tỉnh thành mới sang 63 tỉnh thành cũ"
       >
-        <span className="flex items-center gap-2">
-          <span className="text-2xl">✨</span>
-          <span>New → Old</span>
-          <span className="text-sm opacity-75">(34 → 63)</span>
-        </span>
+        <div className="flex flex-col items-start gap-0.5">
+          <span className="text-sm">Mới → Cũ</span>
+          <span className="text-xs opacity-60">Sau sát nhập → Trước sát nhập</span>
+        </div>
       </button>
     </div>
   )

@@ -20,17 +20,16 @@ export default function RootLayout({
   }))
 
   return (
-    <html lang="en">
+    <html lang="vi">
       <head>
-        <title>Vietnam Address Converter | 63↔34 Provinces</title>
-        <meta name="description" content="Bi-directional Vietnamese address converter: 63 provinces (pre-July 2025) ↔ 34 provinces (post-July 2025)" />
+        <title>Chuyển Đổi Địa Chỉ Việt Nam | 63↔34</title>
+        <meta name="description" content="Công cụ chuyển đổi địa chỉ Việt Nam chính xác hai chiều. 63 tỉnh thành sang 34 tỉnh thành." />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
       </head>
       <body>
-        <div className="aurora-bg" />
         <QueryClientProvider client={queryClient}>
           {children}
         </QueryClientProvider>

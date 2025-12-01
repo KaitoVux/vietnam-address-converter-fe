@@ -16,15 +16,12 @@ export default function ProvinceSelect({
   isLoading
 }: ProvinceSelectProps) {
   return (
-    <div className="mb-5">
+    <div>
       <label
         htmlFor="province-select"
-        className="block text-sm font-semibold text-white/90 mb-3 tracking-wide"
+        className="block swiss-label text-gray-900 mb-2"
       >
-        <span className="inline-flex items-center gap-2">
-          <span className="text-lg">🏙️</span>
-          Province / City
-        </span>
+        Tỉnh / Thành phố
       </label>
       <div className="relative">
         <select
@@ -33,32 +30,30 @@ export default function ProvinceSelect({
           onChange={(e) => onChange(e.target.value)}
           disabled={isLoading}
           className="
-            w-full px-5 py-4 rounded-xl
-            glass-panel glass-panel-hover
-            text-white placeholder-white/40
+            w-full px-3 py-2
+            swiss-input
             disabled:opacity-50 disabled:cursor-not-allowed
             appearance-none cursor-pointer
-            text-base font-medium
-            transition-all duration-200
+            text-sm
           "
-          aria-label="Select province or city"
+          aria-label="Chọn tỉnh hoặc thành phố"
         >
-          <option value="" className="bg-slate-900 text-white">
-            {isLoading ? 'Loading provinces...' : 'Select province...'}
+          <option value="" className="bg-white text-black">
+            {isLoading ? 'Đang tải...' : 'Chọn tỉnh/thành'}
           </option>
           {provinces?.map((province) => (
             <option
               key={province.code}
               value={province.code}
-              className="bg-slate-900 text-white py-2"
+              className="bg-white text-black py-2"
             >
               {province.name}
             </option>
           ))}
         </select>
-        <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none">
+        <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
           <svg
-            className="w-5 h-5 text-white/60"
+            className="w-3 h-3 text-gray-600"
             fill="none"
             strokeLinecap="round"
             strokeLinejoin="round"

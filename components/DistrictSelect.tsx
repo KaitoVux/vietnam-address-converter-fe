@@ -18,15 +18,12 @@ export default function DistrictSelect({
   disabled
 }: DistrictSelectProps) {
   return (
-    <div className="mb-5">
+    <div>
       <label
         htmlFor="district-select"
-        className="block text-sm font-semibold text-white/90 mb-3 tracking-wide"
+        className="block swiss-label text-gray-900 mb-2"
       >
-        <span className="inline-flex items-center gap-2">
-          <span className="text-lg">🏘️</span>
-          District
-        </span>
+        Quận / Huyện
       </label>
       <div className="relative">
         <select
@@ -35,36 +32,34 @@ export default function DistrictSelect({
           onChange={(e) => onChange(e.target.value)}
           disabled={disabled || isLoading}
           className="
-            w-full px-5 py-4 rounded-xl
-            glass-panel glass-panel-hover
-            text-white placeholder-white/40
+            w-full px-3 py-2
+            swiss-input
             disabled:opacity-50 disabled:cursor-not-allowed
             appearance-none cursor-pointer
-            text-base font-medium
-            transition-all duration-200
+            text-sm
           "
-          aria-label="Select district"
+          aria-label="Chọn quận hoặc huyện"
         >
-          <option value="" className="bg-slate-900 text-white">
+          <option value="" className="bg-white text-black">
             {disabled
-              ? 'Select province first...'
+              ? 'Chọn tỉnh/thành trước'
               : isLoading
-              ? 'Loading districts...'
-              : 'Select district...'}
+              ? 'Đang tải...'
+              : 'Chọn quận/huyện'}
           </option>
           {districts?.map((district) => (
             <option
               key={district.code}
               value={district.code}
-              className="bg-slate-900 text-white py-2"
+              className="bg-white text-black py-2"
             >
               {district.name}
             </option>
           ))}
         </select>
-        <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none">
+        <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
           <svg
-            className="w-5 h-5 text-white/60"
+            className="w-3 h-3 text-gray-600"
             fill="none"
             strokeLinecap="round"
             strokeLinejoin="round"
