@@ -4,31 +4,112 @@
 
 @layer base {
   :root {
-    /* Swiss Minimalist Design System */
-    --swiss-red: #FF0000;
-    --swiss-black: #000000;
-    --swiss-white: #FFFFFF;
-    --swiss-gray-50: #F7F7F7;
-    --swiss-gray-100: #E8E8E8;
-    --swiss-gray-200: #D1D1D1;
-    --swiss-gray-300: #B8B8B8;
-    --swiss-gray-800: #2A2A2A;
-    --swiss-gray-900: #1A1A1A;
+    /* === Core Brand Colors === */
 
-    /* Grid system */
-    --grid-unit: 8px;
-    --spacing-xs: calc(var(--grid-unit) * 1);
-    --spacing-sm: calc(var(--grid-unit) * 2);
-    --spacing-md: calc(var(--grid-unit) * 3);
-    --spacing-lg: calc(var(--grid-unit) * 4);
-    --spacing-xl: calc(var(--grid-unit) * 6);
-    --spacing-2xl: calc(var(--grid-unit) * 8);
-    --spacing-3xl: calc(var(--grid-unit) * 12);
+    /* Primary - Vietnamese Flag Red */
+    --primary: 0 72% 42%;               /* hsl(0, 72%, 42%) - Deep Red */
+    --primary-foreground: 0 0% 100%;    /* White text on primary */
+
+    /* Secondary/Accent - Vietnamese Gold */
+    --secondary: 45 85% 55%;            /* hsl(45, 85%, 55%) - Golden Yellow */
+    --secondary-foreground: 0 10% 15%;  /* Dark text on secondary */
+    --accent: 45 85% 55%;               /* Same as secondary */
+    --accent-foreground: 0 10% 15%;
+
+    /* === Surfaces === */
+
+    /* Background - Warm Cream */
+    --background: 40 30% 98%;           /* hsl(40, 30%, 98%) - Warm off-white */
+    --foreground: 0 10% 15%;            /* hsl(0, 10%, 15%) - Dark brown-black */
+
+    /* Cards */
+    --card: 0 0% 100%;                  /* Pure white */
+    --card-foreground: 0 10% 15%;
+
+    /* Popover */
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 10% 15%;
+
+    /* === Muted/Subtle === */
+    --muted: 40 20% 94%;                /* Warm muted surface */
+    --muted-foreground: 0 5% 45%;       /* Muted text */
+
+    /* === Interactive === */
+    --border: 40 15% 88%;               /* Warm border color */
+    --input: 40 15% 88%;                /* Input border */
+    --ring: 0 72% 42%;                  /* Focus ring = Primary */
+
+    /* === Semantic === */
+    --destructive: 0 84.2% 60.2%;       /* Error red */
+    --destructive-foreground: 0 0% 100%;
+
+    /* === Base Values === */
+    --radius: 0.75rem;                  /* 12px base radius */
+
+    /* === Gradients === */
+    --gradient-hero: linear-gradient(
+      135deg,
+      hsl(0 72% 42%) 0%,
+      hsl(0 65% 35%) 50%,
+      hsl(350 60% 30%) 100%
+    );
+    --gradient-accent: linear-gradient(
+      135deg,
+      hsl(45 85% 55%) 0%,
+      hsl(40 90% 50%) 100%
+    );
+    --gradient-card: linear-gradient(
+      180deg,
+      hsl(0 0% 100%) 0%,
+      hsl(40 30% 99%) 100%
+    );
+
+    /* === Shadows === */
+    --shadow-soft: 0 4px 20px -4px hsl(0 10% 15% / 0.08);
+    --shadow-elevated: 0 8px 30px -8px hsl(0 10% 15% / 0.12);
+    --shadow-glow: 0 0 40px hsl(0 72% 42% / 0.15);
+  }
+
+  .dark {
+    --background: 0 10% 8%;             /* Very dark warm */
+    --foreground: 40 20% 95%;           /* Light warm text */
+
+    --card: 0 10% 12%;
+    --card-foreground: 40 20% 95%;
+
+    --popover: 0 10% 12%;
+    --popover-foreground: 40 20% 95%;
+
+    --primary: 0 72% 50%;               /* Brighter red for dark mode */
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 45 80% 50%;            /* Adjusted gold */
+    --secondary-foreground: 0 10% 10%;
+
+    --muted: 0 10% 18%;
+    --muted-foreground: 40 10% 60%;
+
+    --accent: 45 80% 50%;
+    --accent-foreground: 0 10% 10%;
+
+    --destructive: 0 62.8% 50%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 0 10% 20%;
+    --input: 0 10% 20%;
+    --ring: 0 72% 50%;
+
+    --shadow-soft: 0 4px 20px -4px hsl(0 0% 0% / 0.3);
+    --shadow-elevated: 0 8px 30px -8px hsl(0 0% 0% / 0.4);
+  }
+
+  * {
+    @apply border-border;
   }
 
   body {
-    @apply bg-white text-black antialiased;
-    font-family: 'Be Vietnam Pro', 'Inter', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+    @apply bg-background text-foreground antialiased;
+    font-family: "Be Vietnam Pro", system-ui, sans-serif;
     font-weight: 400;
     font-feature-settings: "kern" 1, "liga" 1;
     -webkit-font-smoothing: antialiased;
@@ -38,118 +119,20 @@
 }
 
 @layer utilities {
-  /* Swiss Grid Card */
-  .swiss-card {
-    @apply bg-white border border-gray-200;
-    transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1),
-                box-shadow 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  /* Gradient text */
+  .text-gradient {
+    @apply bg-clip-text text-transparent;
+    background-image: var(--gradient-accent);
   }
 
-  .swiss-card-hover {
-    @apply hover:shadow-[0_1px_4px_rgba(0,0,0,0.1)] hover:-translate-y-0.5;
+  /* Elevated card surface */
+  .card-elevated {
+    background: var(--gradient-card);
+    box-shadow: var(--shadow-elevated);
   }
 
-  /* Typography hierarchy */
-  .swiss-heading {
-    font-weight: 700;
-    letter-spacing: -0.03em;
-    line-height: 1.1;
-  }
-
-  .swiss-label {
-    font-weight: 600;
-    letter-spacing: 0.02em;
-    text-transform: uppercase;
-    font-size: 10px;
-  }
-
-  /* Accent elements */
-  .swiss-accent {
-    @apply bg-[var(--swiss-red)];
-  }
-
-  .swiss-accent-text {
-    color: var(--swiss-red);
-  }
-
-  /* Input fields */
-  .swiss-input {
-    @apply border border-gray-300 bg-white text-black;
-    transition: border-color 0.15s ease, box-shadow 0.15s ease;
-  }
-
-  .swiss-input:hover {
-    @apply border-gray-400;
-  }
-
-  .swiss-input:focus {
-    @apply border-black outline-none;
-    box-shadow: 0 0 0 1px black;
-  }
-
-  /* Buttons */
-  .swiss-button {
-    @apply font-semibold tracking-tight;
-    transition: transform 0.1s ease, opacity 0.1s ease;
-  }
-
-  .swiss-button:active {
-    @apply scale-[0.98];
-  }
-
-  /* Micro-animation utility */
-  @keyframes subtle-lift {
-    from {
-      transform: translateY(0);
-    }
-    to {
-      transform: translateY(-1px);
-    }
-  }
-
-  .animate-subtle-lift {
-    animation: subtle-lift 0.2s ease forwards;
-  }
-}
-
-/* Custom scrollbar - minimalist */
-::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
-}
-
-::-webkit-scrollbar-track {
-  @apply bg-gray-100;
-}
-
-::-webkit-scrollbar-thumb {
-  @apply bg-gray-400;
-  border-radius: 0;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  @apply bg-gray-600;
-}
-
-/* Focus styles - Swiss precision */
-*:focus-visible {
-  @apply outline-none;
-  box-shadow: 0 0 0 2px var(--swiss-red);
-  outline-offset: 2px;
-}
-
-/* Selection */
-::selection {
-  @apply bg-black text-white;
-}
-
-/* Reduced motion support */
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
+  /* Hero gradient background */
+  .hero-gradient {
+    background: var(--gradient-hero);
   }
 }
