@@ -35,7 +35,7 @@ export default function RootLayout({
           name="description"
           content="Công cụ chuyển đổi địa chỉ Việt Nam chính xác hai chiều. 63 tỉnh thành sang 34 tỉnh thành."
         />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
       </head>
       <body>
         <ThemeProvider

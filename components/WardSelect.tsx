@@ -22,7 +22,7 @@ export default function WardSelect({
     <div>
       <label
         htmlFor="ward-select"
-        className="block text-xs font-medium text-muted-foreground uppercase tracking-wide mb-2"
+        className="sr-only"
       >
         <Home className="w-3 h-3 inline mr-1" />
         Phường / Xã
@@ -34,7 +34,7 @@ export default function WardSelect({
           onChange={(e) => onChange(e.target.value)}
           disabled={disabled || isLoading}
           className="
-            w-full px-3 py-2 text-sm
+            w-full h-11 pl-3 pr-9 text-base md:text-sm
             bg-background border border-input rounded-lg
             text-foreground
             focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent

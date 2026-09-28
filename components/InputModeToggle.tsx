@@ -14,36 +14,42 @@ export default function InputModeToggle({
   onModeChange,
 }: InputModeToggleProps) {
   return (
-    <div className="flex space-x-1">
+    <div className="grid grid-cols-2 bg-muted/60 p-1 rounded-xl">
       <button
+        type="button"
         onClick={() => onModeChange("selection")}
         className={`
-          px-5 py-2.5 rounded-xl font-semibold text-sm transition-all duration-200
-          flex items-center gap-2
+          h-9 px-1 rounded-lg font-semibold text-xs whitespace-nowrap transition-all duration-200
+          flex items-center justify-center gap-1
           ${
             mode === "selection"
-              ? "bg-primary text-primary-foreground shadow-md shadow-primary/20"
-              : "bg-muted/40 text-muted-foreground hover:bg-muted hover:text-foreground"
+              ? "bg-primary text-primary-foreground shadow-sm"
+              : "text-muted-foreground hover:text-foreground"
           }
         `}
+        aria-pressed={mode === "selection"}
+        aria-label="Chế độ chọn từ danh sách"
       >
-        <List className="w-4 h-4" />
-        Chọn từ danh sách
+        <List className="hidden min-[400px]:block w-3.5 h-3.5 shrink-0" />
+        Danh sách
       </button>
 
       <button
+        type="button"
         onClick={() => onModeChange("quick")}
         className={`
-          px-5 py-2.5 rounded-xl font-semibold text-sm transition-all duration-200
-          flex items-center gap-2
+          h-9 px-1 rounded-lg font-semibold text-xs whitespace-nowrap transition-all duration-200
+          flex items-center justify-center gap-1
           ${
             mode === "quick"
-              ? "bg-primary text-primary-foreground shadow-md shadow-primary/20"
-              : "bg-muted/40 text-muted-foreground hover:bg-muted hover:text-foreground"
+              ? "bg-primary text-primary-foreground shadow-sm"
+              : "text-muted-foreground hover:text-foreground"
           }
         `}
+        aria-pressed={mode === "quick"}
+        aria-label="Chế độ nhập nhanh toàn bộ địa chỉ"
       >
-        <Zap className="w-4 h-4" />
+        <Zap className="hidden min-[400px]:block w-3.5 h-3.5 shrink-0" />
         Nhập nhanh
       </button>
     </div>
