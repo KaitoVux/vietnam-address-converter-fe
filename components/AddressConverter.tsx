@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { MapPin, Zap, RotateCcw } from "lucide-react";
+import { ThemeToggle } from "./ThemeToggle";
 import type { ConversionMode } from "@/types/address";
 import ModeToggle from "./ModeToggle";
 import InputModeToggle, { type InputMode } from "./InputModeToggle";
@@ -68,11 +69,10 @@ export default function AddressConverter() {
 
   if (!mounted) {
     return (
-      <div className="w-full max-w-3xl mx-auto px-4 py-8">
-        <div className="mb-8 text-center">
-          <h1 className="text-3xl md:text-4xl font-bold text-foreground">
-            Chuyển Đổi Địa Chỉ Việt Nam
-          </h1>
+      <div className="relative z-10 flex-1 min-h-0 w-full flex flex-col bg-card border-t-4 border-primary md:flex-none md:max-w-md md:h-[min(760px,calc(100dvh-3rem))] md:rounded-2xl md:shadow-xl md:overflow-hidden">
+        <AppHeader />
+        <div className="flex-1 flex items-center justify-center">
+          <p className="text-xs text-muted-foreground">Đang tải...</p>
         </div>
       </div>
     );
@@ -160,12 +160,6 @@ export default function AddressConverter() {
     }
   };
 
-  const handleSwitchDirection = () => {
-    const newMode: ConversionMode =
-      mode === "old-to-new" ? "new-to-old" : "old-to-new";
-    handleModeChange(newMode);
-  };
-
   const handleReset = () => {
     setProvince(null);
     setDistrict(null);
@@ -193,221 +187,157 @@ export default function AddressConverter() {
     (currentError as Error)?.message;
 
   return (
-    <div className="w-full max-w-4xl mx-auto px-4">
-      {/* Header */}
-      <div className="mb-8 flex flex-col items-center">
-        {/* Top Badge */}
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-primary/5 border border-primary/20 rounded-full mb-4">
-          <span className="text-xs font-medium text-primary">
-            🌟 Nghị quyết số 76/2025/UBTVQH15
-          </span>
+    <form onSubmit={handleSubmit} className="relative z-10 flex-1 min-h-0 w-full flex flex-col bg-card border-t-4 border-primary md:flex-none md:max-w-md md:h-[min(760px,calc(100dvh-3rem))] md:rounded-2xl md:shadow-xl md:overflow-hidden">
+      <AppHeader onReset={handleReset} />
+
+      {/* Scrollable content zone - the page itself never scrolls */}
+      <div className="flex-1 min-h-0 overflow-y-auto px-4 py-3 space-y-2.5">
+        <div className="grid grid-cols-2 gap-2">
+          <InputModeToggle
+            mode={inputMode}
+            onModeChange={handleInputModeChange}
+          />
+          <ModeToggle mode={mode} onModeChange={handleModeChange} />
         </div>
 
-        {/* Title */}
-        <div className="flex items-center gap-3 mb-4">
-          <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center shadow-lg shadow-primary/25">
-            <MapPin className="w-6 h-6 text-primary-foreground" />
-          </div>
-          <h1 className="text-3xl md:text-4xl font-bold text-foreground">
-            Chuyển Đổi Địa Chỉ <span className="text-primary">Việt Nam</span>
-          </h1>
-        </div>
-
-        {/* Sub-badge */}
-        <div className="flex items-center gap-3 text-sm font-medium bg-white/50 backdrop-blur px-4 py-2 rounded-full border border-border shadow-sm">
-          <span className="flex items-center gap-1.5">
-            <span className="w-2 h-2 rounded-full bg-foreground/60"></span>
-            63 tỉnh thành cũ
-          </span>
-          <RotateCcw className="w-4 h-4 text-muted-foreground" />
-          <span className="flex items-center gap-1.5">
-            <span className="w-2 h-2 rounded-full bg-primary"></span>
-            <span className="text-primary">34 tỉnh thành mới</span>
-          </span>
-        </div>
-      </div>
-
-      {/* Main Card */}
-      <div className="relative bg-card shadow-xl rounded-2xl overflow-hidden animate-fade-in border-t-4 border-primary">
-        <div className="p-6 md:p-8">
-          {/* Control Bar */}
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-8 pb-6 border-b border-border">
-            <InputModeToggle
-              mode={inputMode}
-              onModeChange={handleInputModeChange}
+        {inputMode === "quick" ? (
+          <QuickConvertInput
+            value={fullAddress}
+            onChange={setFullAddress}
+            mode={mode}
+          />
+        ) : (
+          <div className="space-y-2">
+            <ProvinceSelect
+              provinces={provinces || []}
+              value={province?.code || ""}
+              onChange={handleProvinceChange}
+              isLoading={provincesLoading}
             />
-            <ModeToggle mode={mode} onModeChange={handleModeChange} />
-          </div>
 
-          <form onSubmit={handleSubmit}>
-            {/* Display API errors */}
-            {error && (
-              <div className="mb-6 border-l-4 border-destructive bg-destructive/5 rounded-r-lg p-4">
-                <div className="flex items-start gap-3">
-                  <div className="flex-1">
-                    <p className="font-semibold text-destructive text-xs mb-1 uppercase tracking-wide">
-                      Lỗi
-                    </p>
-                    <p className="text-destructive text-sm">
-                      {error || "Đã xảy ra lỗi. Vui lòng thử lại."}
-                    </p>
-                  </div>
-                </div>
-              </div>
+            {mode === "old-to-new" && (
+              <DistrictSelect
+                districts={districts || []}
+                value={district?.code || ""}
+                onChange={handleDistrictChange}
+                isLoading={districtsLoading}
+                disabled={!province}
+              />
             )}
 
-            <div className="space-y-6">
-              {inputMode === "quick" ? (
-                <QuickConvertInput
-                  value={fullAddress}
-                  onChange={setFullAddress}
-                  mode={mode}
-                />
-              ) : (
-                <>
-                  <div
-                    className={`grid gap-4 ${
-                      mode === "old-to-new"
-                        ? "grid-cols-1 md:grid-cols-3"
-                        : "grid-cols-1 md:grid-cols-2"
-                    }`}
-                  >
-                    <ProvinceSelect
-                      provinces={provinces || []}
-                      value={province?.code || ""}
-                      onChange={handleProvinceChange}
-                      isLoading={provincesLoading}
-                    />
+            <WardSelect
+              wards={wards || []}
+              value={ward?.code || ""}
+              onChange={handleWardChange}
+              isLoading={wardsLoading}
+              disabled={mode === "new-to-old" ? !province : !district}
+            />
 
-                    {mode === "old-to-new" && (
-                      <DistrictSelect
-                        districts={districts || []}
-                        value={district?.code || ""}
-                        onChange={handleDistrictChange}
-                        isLoading={districtsLoading}
-                        disabled={!province}
-                      />
-                    )}
-
-                    <WardSelect
-                      wards={wards || []}
-                      value={ward?.code || ""}
-                      onChange={handleWardChange}
-                      isLoading={wardsLoading}
-                      disabled={mode === "new-to-old" ? !province : !district}
-                    />
-                  </div>
-
-                  {/* Street input */}
-                  <div>
-                    <label
-                      htmlFor="street-input"
-                      className="block text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-2 pl-1"
-                    >
-                      Đường (Không bắt buộc)
-                    </label>
-                    <input
-                      id="street-input"
-                      type="text"
-                      value={street}
-                      onChange={(e) => setStreet(e.target.value)}
-                      className="
-                                                w-full px-4 py-3 text-sm
-                                                bg-background border border-input rounded-xl
-                                                text-foreground
-                                                focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary
-                                                transition-all duration-200
-                                            "
-                      placeholder="Nhập số nhà, tên đường..."
-                    />
-                  </div>
-                </>
-              )}
-
-              {/* Action Buttons */}
-              <div className="flex flex-col-reverse md:flex-row gap-3 pt-2">
-                <button
-                  type="button"
-                  onClick={handleReset}
-                  className="
-                                        md:w-32 px-4 py-3.5 rounded-xl font-medium text-sm
-                                        border border-border bg-background text-foreground
-                                        hover:bg-muted/50 hover:border-foreground/20
-                                        transition-all duration-200
-                                        flex items-center justify-center gap-2
-                                    "
-                >
-                  <RotateCcw className="w-4 h-4" />
-                  Đặt lại
-                </button>
-
-                <button
-                  type="submit"
-                  disabled={!isFormValid || currentPending}
-                  className={`
-                                        flex-1 px-4 py-3.5 rounded-xl font-bold text-base
-                                        flex items-center justify-center gap-2
-                                        transition-all duration-200 shadow-lg shadow-primary/20
-                                        ${
-                                          !isFormValid || currentPending
-                                            ? "bg-muted text-muted-foreground cursor-not-allowed shadow-none"
-                                            : "bg-primary text-primary-foreground hover:bg-primary/90 hover:shadow-primary/30 hover:-translate-y-0.5"
-                                        }
-                                    `}
-                >
-                  {currentPending ? (
-                    <>
-                      <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
-                        <circle
-                          className="opacity-25"
-                          cx="12"
-                          cy="12"
-                          r="10"
-                          stroke="currentColor"
-                          strokeWidth="4"
-                          fill="none"
-                        />
-                        <path
-                          className="opacity-75"
-                          fill="currentColor"
-                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                        />
-                      </svg>
-                      Đang xử lý...
-                    </>
-                  ) : (
-                    <>
-                      <Zap className="w-5 h-5" />
-                      Chuyển Đổi Địa Chỉ
-                    </>
-                  )}
-                </button>
-              </div>
+            <div>
+              <label htmlFor="street-input" className="sr-only">
+                Đường (Không bắt buộc)
+              </label>
+              <input
+                id="street-input"
+                type="text"
+                value={street}
+                onChange={(e) => setStreet(e.target.value)}
+                className="
+                  w-full h-11 px-3 text-base md:text-sm
+                  bg-background border border-input rounded-lg
+                  text-foreground
+                  focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent
+                  transition-colors duration-200
+                  hover:border-primary/50
+                "
+                placeholder="Số nhà, tên đường (không bắt buộc)"
+              />
             </div>
-          </form>
+          </div>
+        )}
 
-          <ResultDisplay
-            result={currentResult || null}
-            onCopy={handleCopy}
-            onSwitchDirection={handleSwitchDirection}
-            onReset={handleReset}
-          />
-        </div>
-      </div>
+        <ResultDisplay
+          result={currentResult || null}
+          mode={mode}
+          errorMessage={error}
+          onCopy={handleCopy}
+        />
 
-      {/* Footer */}
-      <div className="mt-8 text-center pb-8">
-        <p className="text-xs font-medium text-muted-foreground/80">
-          Sử dụng{" "}
-          <span className="text-primary hover:underline cursor-pointer">
-            VietnamAdminUnits
-          </span>{" "}
-          &{" "}
-          <span className="text-primary hover:underline cursor-pointer">
-            Provinces Open API
-          </span>
+        <p className="hidden md:block pt-2 text-center text-[11px] font-medium text-muted-foreground/80">
+          Sử dụng <span className="text-primary">VietnamAdminUnits</span> & 
+          <span className="text-primary">Provinces Open API</span>
         </p>
       </div>
-    </div>
+
+      {/* Pinned action bar */}
+      <footer className="shrink-0 border-t border-border bg-card px-4 pt-3 safe-bottom">
+        <button
+          type="submit"
+          disabled={!isFormValid || currentPending}
+          className={`
+            w-full h-11 px-4 rounded-xl font-bold text-base
+            flex items-center justify-center gap-2
+            transition-all duration-200
+            ${
+              !isFormValid || currentPending
+                ? "bg-muted text-muted-foreground cursor-not-allowed"
+                : "bg-primary text-primary-foreground shadow-lg shadow-primary/20 hover:bg-primary/90 active:scale-[0.98]"
+            }
+          `}
+        >
+          {currentPending ? (
+            <>
+              <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
+                <circle
+                  className="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                  fill="none"
+                />
+                <path
+                  className="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                />
+              </svg>
+              Đang xử lý...
+            </>
+          ) : (
+            <>
+              <Zap className="w-5 h-5" />
+              Chuyển Đổi Địa Chỉ
+            </>
+          )}
+        </button>
+      </footer>
+    </form>
+  );
+}
+
+function AppHeader({ onReset }: { onReset?: () => void }) {
+  return (
+    <header className="shrink-0 h-12 px-4 flex items-center gap-2.5 border-b border-border">
+      <div className="w-8 h-8 shrink-0 rounded-lg bg-primary flex items-center justify-center shadow-md shadow-primary/25">
+        <MapPin className="w-4 h-4 text-primary-foreground" />
+      </div>
+      <h1 className="flex-1 min-w-0 text-base font-bold text-foreground truncate">
+        Chuyển Đổi Địa Chỉ <span className="text-primary">VN</span>
+      </h1>
+      <ThemeToggle />
+      {onReset && (
+        <button
+          type="button"
+          onClick={onReset}
+          className="p-2 rounded-lg border border-border bg-background hover:bg-muted transition-colors"
+          aria-label="Đặt lại"
+          title="Đặt lại"
+        >
+          <RotateCcw className="w-4 h-4 text-foreground" />
+        </button>
+      )}
+    </header>
   );
 }

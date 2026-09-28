@@ -24,10 +24,10 @@ export default function QuickConvertInput({
       : "Nhập địa chỉ đầy đủ (34 tỉnh thành), phân tách bằng dấu phẩy";
 
   return (
-    <div className="mb-3">
+    <div>
       <label
         htmlFor="quick-address-input"
-        className="block text-xs font-medium text-muted-foreground uppercase tracking-wide mb-2"
+        className="sr-only"
       >
         Địa chỉ đầy đủ
       </label>
@@ -35,9 +35,9 @@ export default function QuickConvertInput({
         id="quick-address-input"
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        rows={4}
+        rows={3}
         className="
-          w-full px-3 py-2 text-sm resize-none
+          w-full px-3 py-2 text-base md:text-sm resize-none
           bg-background border border-input rounded-lg
           text-foreground
           focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent
@@ -47,7 +47,7 @@ export default function QuickConvertInput({
         placeholder={placeholderText}
         aria-label="Nhập địa chỉ đầy đủ, phân tách bằng dấu phẩy"
       />
-      <p className="text-xs text-muted-foreground mt-2">{helpText}</p>
+      <p className="text-[11px] text-muted-foreground mt-1 truncate">{helpText}</p>
     </div>
   );
 }

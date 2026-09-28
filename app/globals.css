@@ -107,6 +107,12 @@
     @apply border-border;
   }
 
+  html,
+  body {
+    height: 100%;
+    overscroll-behavior: none;
+  }
+
   body {
     @apply bg-background text-foreground antialiased;
     font-family: "Be Vietnam Pro", system-ui, sans-serif;
@@ -119,6 +125,11 @@
 }
 
 @layer utilities {
+  /* Respect iPhone home indicator */
+  .safe-bottom {
+    padding-bottom: max(12px, env(safe-area-inset-bottom));
+  }
+
   /* Gradient text */
   .text-gradient {
     @apply bg-clip-text text-transparent;
